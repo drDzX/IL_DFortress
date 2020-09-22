@@ -142,14 +142,20 @@
   <ItemGroup>
     <ClInclude Include="Source\Characters.h" />
     <ClInclude Include="Source\ConsoleEngine\DzX_ConsoleEngine.h" />
+    <ClInclude Include="Source\Enemy.h" />
     <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Global.h" />
     <ClInclude Include="Source\MainMenu.h" />
+    <ClInclude Include="Source\Player.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ConsoleEngine\DzX_ConsoleEngine.cpp" />
     <ClCompile Include="Source\Characters.cpp" />
+    <ClCompile Include="Source\Enemy.cpp" />
     <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Global.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
+    <ClCompile Include="Source\Player.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

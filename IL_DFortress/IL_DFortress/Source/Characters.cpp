@@ -1,20 +1,18 @@
 ﻿#include "Characters.h"
+#include "Game.h"
 #include <io.h>
 #include <fcntl.h>
+#include<type_traits>
 
-Character::Character(shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY)
+Character::Character()
 {
-	m_look = L"X";
-	m_posX = spawnX;
-	m_posY = spawnY;
-	if (CurrentConsole)
-	{
-		m_ActiveConsole = CurrentConsole;		
-	}
-	else
-	{
-		cout << "There is no console for " << this << " !";
-	}
+	m_look = L"X";	
+	m_PlayerState = EPlayerState::ALIVE;	
+}
+
+Character::~Character()
+{
+	delete m_ActiveGame;
 }
 
 void Character::EraseCharacter()
@@ -47,13 +45,11 @@ void Character::SetCurrentField(const char CurrentField)
 
 void Character::DrawCharacter()
 {
-	if (m_ActiveConsole)
+	if (m_ActiveConsole && m_PlayerState!=EPlayerState::DEAD)
 	{
 		m_ActiveConsole->GoToXY(m_posX, m_posY);
 		std::wcout << m_look;
-
-	}
-
+	}	
 }
 
 void Character::MoveTo(int X, int Y)
@@ -76,6 +72,61 @@ void Character::MoveTo(int X, int Y)
 		m_posY += Y;
 		m_currentField = m_ActiveConsole->GetCharAtPosition(m_posX, m_posY);
 
+	}
+}
+
+void Character::UpdateHP(int InChange)
+{
+	
+	m_Stats.CurrentHealth += InChange;
+	if (m_Stats.CurrentHealth > m_Stats.MaxHealth)
+	{
+		m_Stats.CurrentHealth = m_Stats.MaxHealth;
+	}
+	if (m_Stats.CurrentHealth <= 0)
+	{
+		Die();
+	}
+}
+
+void Character::UpdateSTR(int InChange)
+{
+	m_Stats.Strength += InChange;
+}
+
+void Character::UpdateDEF(int InChange)
+{
+	m_Stats.Defence += InChange;
+}
+
+
+void Character::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY)
+{
+	m_posX = spawnX;
+	m_posY = spawnY;
+	m_ActiveGame = CurrentGame;
+	if (CurrentConsole)
+	{
+		m_ActiveConsole = CurrentConsole;
+	}
+	else
+	{
+		cout << "There is no console for " << this << " !";
+	}
+}
+
+void Character::Attack(class Character* Enemy)
+{
+	int Damage = m_Stats.Strength - Enemy->m_Stats.Defence;
+	Enemy->UpdateHP(-Damage);
+}
+
+void Character::Die()
+{
+	m_PlayerState = EPlayerState::DEAD;
+	if (m_ActiveGame)
+	{
+		m_ActiveGame->GameOver();
 	}
 }
 

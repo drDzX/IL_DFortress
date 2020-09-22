@@ -1,8 +1,7 @@
 #pragma once
+#include "Global.h"
 #include "Game.h"
-#include <memory>
-#include <iostream>
-#include "ConsoleEngine/DzX_ConsoleEngine.h"
+
 using namespace std;
 
 class MainMenu

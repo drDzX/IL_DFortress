@@ -1,8 +1,6 @@
 #include "DzX_ConsoleEngine.h"
-#include <iostream>
-#include <iterator>
-#include <algorithm>
-#include <fstream>
+
+
 
 
 DzX_Console::DzX_Console()
@@ -11,8 +9,12 @@ DzX_Console::DzX_Console()
 	m_handleConsoleOut=GetStdHandle(STD_OUTPUT_HANDLE);
 
 	//m_handleConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
-	m_ScreenX = 60;
-	m_ScreenY = 30;
+	m_ScreenSize.X = 80;
+	m_ScreenSize.Y = 35;
+	m_ScreenRect.Top = 0;
+	m_ScreenRect.Left = 0;
+	m_ScreenRect.Bottom = m_ScreenSize.Y;
+	m_ScreenRect.Right = m_ScreenSize.X;
 }
 
 
@@ -22,6 +24,12 @@ void DzX_Console::GoToXY(int x, int y)
 	m_CursorPos.Y = y;
 	SetConsoleCursorPosition(m_handleConsoleOut, m_CursorPos);
 	SetCursor(false, 20);
+}
+
+void DzX_Console::UpdateConsoleSize()
+{
+	SetConsoleScreenBufferSize(m_handleConsoleOut, m_ScreenSize);
+	SetConsoleWindowInfo(m_handleConsoleOut, true, &m_ScreenRect);
 }
 
 char DzX_Console::GetCharAtPosition(int X, int Y)
@@ -93,6 +101,7 @@ void DzX_Console::Play()
 
 void DzX_Console::BeginPlay()
 {
+	UpdateConsoleSize();
 	shared_ptr<DzX_Console> console = make_shared<DzX_Console>();
 	m_Menu = make_unique<MainMenu>();
 	if (m_Menu)

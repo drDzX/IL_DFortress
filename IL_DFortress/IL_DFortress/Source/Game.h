@@ -1,19 +1,11 @@
 #pragma once
-#include <iostream>
-#include <memory>
-#include "Characters.h"
-#include "ConsoleEngine/DzX_ConsoleEngine.h"
+#include "Global.h"
+
 
 #define BIT(x) (1<<x)
 
 using namespace std;
-using json = nlohmann::json;
 
-enum class ESymbols :char
-{
-	WALL = '#',
-	TREE = 'A',
-};
 enum EGameState
 {
 	None = 0,
@@ -24,6 +16,9 @@ enum EGameState
 
 class GamePlay
 {
+
+private:
+	SMALL_RECT m_GamePlayArea;
 public:
 	GamePlay(shared_ptr<class DzX_Console> console);
 
@@ -31,13 +26,23 @@ public:
 	void Play();
 	EGameState m_GameState;
 
+	std::array<class Enemy*, 15> m_Enemies;
 
-	shared_ptr < class  Character > m_Player;
+		shared_ptr < class  Player > m_Player;
+
+	void GameOver();
 
 private:
 	void DrawWorld();
-	std::string ReadJson(const char InPath[], const  char elemKey[]);
+	void DrawEnemies();
+	void MoveEnemies();
+	
+	void SpawnEnemies(int NoOfEnemies);
+
+	COORD GetRandomPoint(int Seed=0);
+
+
+
 protected:
-	json m_World_Data;
 	shared_ptr<class DzX_Console> m_Console;
 };
