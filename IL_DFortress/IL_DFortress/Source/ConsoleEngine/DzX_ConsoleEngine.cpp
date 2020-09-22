@@ -1,5 +1,5 @@
 #include "DzX_ConsoleEngine.h"
-
+#include <Windows.h>
 
 
 
@@ -9,8 +9,8 @@ DzX_Console::DzX_Console()
 	m_handleConsoleOut=GetStdHandle(STD_OUTPUT_HANDLE);
 
 	//m_handleConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
-	m_ScreenSize.X = 80;
-	m_ScreenSize.Y = 35;
+	m_ScreenSize.X = 150;
+	m_ScreenSize.Y = 150;
 	m_ScreenRect.Top = 0;
 	m_ScreenRect.Left = 0;
 	m_ScreenRect.Bottom = m_ScreenSize.Y;
@@ -28,6 +28,10 @@ void DzX_Console::GoToXY(int x, int y)
 
 void DzX_Console::UpdateConsoleSize()
 {
+	if (m_handleConsoleOut == INVALID_HANDLE_VALUE)
+	{
+		Error(L"Bad Handle");
+	}		
 	SetConsoleScreenBufferSize(m_handleConsoleOut, m_ScreenSize);
 	SetConsoleWindowInfo(m_handleConsoleOut, true, &m_ScreenRect);
 }
@@ -77,39 +81,23 @@ COORD DzX_Console::GetConsoleCursorPosition(HANDLE hConsoleOutput)
 	}
 }
 
-void DzX_Console::Play()
+void DzX_Console::Error(const wchar_t* msg)
 {
-	//system("cls");
-	//SetCursor(false, 20);
-	//DrawWorld();
-	//
-	//while (1)
-	//{
-	//	if (_kbhit())
-	//	{
-	//		char ch = _getch();
-	//		if (ch == 'a' || ch == 'A')
-	//		{
-	//			cout << "Pressed";
-	//		}
-	//	}
-	//}
-	
-	//DrawPlayer();
-}
+	wchar_t buf[256];
+	FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 256, NULL);
+	SetConsoleActiveScreenBuffer(m_handleConsoleOut);
+	wprintf(L"ERROR: %s\n\t%s\n", msg, buf);
 
+}
 
 void DzX_Console::BeginPlay()
 {
-	UpdateConsoleSize();
-	shared_ptr<DzX_Console> console = make_shared<DzX_Console>();
 	m_Menu = make_unique<MainMenu>();
 	if (m_Menu)
 	{
-		m_Menu->NewGame(move(console));
-		//this->Play();
+		UpdateConsoleSize();
+		m_Menu->NewGame(this);		
 	}
-	
 }
 
 int main()

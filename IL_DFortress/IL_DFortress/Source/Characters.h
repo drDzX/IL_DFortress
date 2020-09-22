@@ -47,11 +47,13 @@ protected:
 	//Current position X and Y
 	int m_posX;
 	int m_posY;
-	//On what field character is on top of
-	char m_currentField;
+
 public:
 	CharStats m_Stats;
+	CharStats m_BaseStats;
 	EPlayerState m_PlayerState;
+	//On what field character is on top of
+	char m_currentField;
 private:
 	//Erase character from spot after he moved to another
 	void EraseCharacter();
@@ -63,7 +65,7 @@ public:
 	//Draw character on its position in the world
 	void DrawCharacter();
 	//Return position
-	vector<int, int> GetPosition();
+	COORD GetPosition();
 	//Move character to new location
 	void MoveTo(int X, int Y);
 	//Updates HP of the char
@@ -73,7 +75,7 @@ public:
 	//Update defence
 	void UpdateDEF(int InChange);
 
-	void Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY);
+	virtual void Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY);
 protected:
 	//Attack
 	virtual void Attack(class Character* Enemy);

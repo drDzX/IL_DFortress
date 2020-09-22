@@ -16,7 +16,6 @@ class DzX_Console
 {
 public:
 	DzX_Console();
-	void Play();
 	void BeginPlay();
 	void GoToXY(int x, int y);
 	void UpdateConsoleSize();
@@ -29,9 +28,11 @@ protected:
 
 	HANDLE m_handleConsoleOut;
 	COORD m_CursorPos;
-	COORD m_ScreenSize;
-	SMALL_RECT m_ScreenRect;
+	_COORD  m_ScreenSize;
+	_SMALL_RECT  m_ScreenRect;
 	unique_ptr<class MainMenu> m_Menu;
 
+
 	COORD GetConsoleCursorPosition(HANDLE hConsoleOutput);
+	void Error(const wchar_t* msg);
 };

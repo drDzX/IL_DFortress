@@ -103,6 +103,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)\3rdParty\boost_1_74_0; $(SolutionDir)\3rdParty\json-develop\single_include\nlohmann;$(ProjectDir)\Source;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,7 +147,9 @@
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Global.h" />
     <ClInclude Include="Source\MainMenu.h" />
+    <ClInclude Include="Source\Pickup.h" />
     <ClInclude Include="Source\Player.h" />
+    <ClInclude Include="Source\PlayerMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ConsoleEngine\DzX_ConsoleEngine.cpp" />
@@ -155,7 +158,9 @@
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Global.cpp" />
     <ClCompile Include="Source\MainMenu.cpp" />
+    <ClCompile Include="Source\Pickup.cpp" />
     <ClCompile Include="Source\Player.cpp" />
+    <ClCompile Include="Source\PlayerMenu.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

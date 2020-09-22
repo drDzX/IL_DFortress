@@ -29,7 +29,7 @@ bool Character::bCanMoveToNext(int X, int Y)
 	if (m_ActiveConsole)
 	{
 		char c = m_ActiveConsole->GetCharAtPosition(X, Y);
-		if (c == static_cast<char>(ESymbols::WALL))
+		if (c == static_cast<char>(EObjectType::WALL))
 		{
 			return false;
 		}
@@ -50,6 +50,15 @@ void Character::DrawCharacter()
 		m_ActiveConsole->GoToXY(m_posX, m_posY);
 		std::wcout << m_look;
 	}	
+	
+}
+
+COORD Character::GetPosition()
+{
+	COORD _C;
+	_C.X = m_posX;
+	_C.Y = m_posY;
+	return _C;
 }
 
 void Character::MoveTo(int X, int Y)
@@ -91,12 +100,12 @@ void Character::UpdateHP(int InChange)
 
 void Character::UpdateSTR(int InChange)
 {
-	m_Stats.Strength += InChange;
+	m_Stats.Strength = m_BaseStats.Strength+InChange;
 }
 
 void Character::UpdateDEF(int InChange)
 {
-	m_Stats.Defence += InChange;
+	m_Stats.Defence = m_BaseStats.Defence + InChange;
 }
 
 

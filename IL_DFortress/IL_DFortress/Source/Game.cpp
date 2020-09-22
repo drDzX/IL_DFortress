@@ -5,6 +5,8 @@
 #include "Characters.h"
 #include "Enemy.h"
 #include "Player.h"
+#include "Pickup.h"
+#include "PlayerMenu.h"
 #include <boost/range/adaptor/indexed.hpp>
 #include <boost/assign.hpp>
 
@@ -20,6 +22,7 @@ GamePlay::GamePlay(shared_ptr<DzX_Console> console)
 
 void GamePlay::BeginPlay()
 {
+	m_WorldLook = ReadJson("Config/world.json", "World");
 	//Draw world so we can take char from field where player will be spawned.
 	DrawWorld();
 	//Set game to playing
@@ -32,8 +35,12 @@ void GamePlay::BeginPlay()
 	//Set field on top of which is player
 	m_Player->SetCurrentField(ch);
 
+	//Create HUD
+	m_HUD = make_shared<class HUD>(this);
+	m_HUD->BeginPlay();
 	int NoOfEnemies = stoi(ReadJson("Config/GamePlay_Settings.json", "NoOfEnemies"));
 	SpawnEnemies(NoOfEnemies);
+	SpawnPickup(3);
 	Play();
 
 }
@@ -43,7 +50,8 @@ void GamePlay::Play()
 
 	system("cls");
 	DrawWorld();
-
+	m_HUD->DrawHud();
+	
 	while (EGameState::GamePlaying)
 	{
 		//Catch input
@@ -77,7 +85,14 @@ void GamePlay::Play()
 
 		//Draw Character
 		m_Player->DrawCharacter();
-	}	
+		m_Player->OverlappEvent();
+
+		
+		DrawPickups();
+		
+
+	}
+
 }
 
 void GamePlay::GameOver()
@@ -87,8 +102,8 @@ void GamePlay::GameOver()
 
 void GamePlay::DrawWorld()
 {
-	std::string world = ReadJson("Config/world.json", "World");
-	std::cout << world;
+	
+	std::cout << m_WorldLook;
 }
 
 void GamePlay::DrawEnemies()
@@ -109,6 +124,31 @@ void GamePlay::MoveEnemies()
 		if (NME.value())
 		{
 			NME.value()->MoveRandom(NME.index());
+		}
+	}
+}
+
+void GamePlay::DrawPickups()
+{
+	for (Pickup* PCK : m_Pickups)
+	{
+		if (PCK)
+		{
+			PCK->Draw();
+		}
+	}
+}
+
+void GamePlay::SpawnPickup(int NoOfPickups)
+{
+	if (NoOfPickups <= (int)m_Pickups.size())
+	{
+		for (int i = 0; i < NoOfPickups; i++)
+		{
+			m_Pickups[i] = new Pickup(EObjectType::HPPOTION,m_Console);
+
+			COORD RandSpawnPoint = GetRandomPoint(i + 10);
+			m_Pickups[i]->Spawn(RandSpawnPoint);
 		}
 	}
 }
@@ -139,7 +179,7 @@ COORD GamePlay::GetRandomPoint(int Seed)
 	int X = m_GamePlayArea.Left + (std::rand() % (m_GamePlayArea.Right - m_GamePlayArea.Left + 1));
 	int Y = m_GamePlayArea.Top + (std::rand() % (m_GamePlayArea.Bottom - m_GamePlayArea.Top + 1));
 	char c = m_Console->GetCharAtPosition(X, Y);
-	if (c != static_cast<char>(ESymbols::SPAWNABLE))
+	if (c != static_cast<char>(EObjectType::SPAWNABLE))
 	{
 		return GetRandomPoint();
 	}

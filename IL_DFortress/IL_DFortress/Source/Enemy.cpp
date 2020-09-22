@@ -3,7 +3,7 @@
 Enemy::Enemy()
 {
 
-	m_look = static_cast<char>(ESymbols::ENEMY_1);
+	m_look = static_cast<char>(EObjectType::ENEMY_1);
 	m_Stats.Strength = 3;
 	m_Stats.Defence = 1;
 }
@@ -42,7 +42,7 @@ void Enemy::MoveRandom(int Seed)
 		}
 
 		char c = m_ActiveConsole->GetCharAtPosition(m_posX + X, m_posY + Y);
-		if (c != static_cast<char>(ESymbols::SPAWNABLE))
+		if (c != static_cast<char>(EObjectType::SPAWNABLE))
 		{
 			//Recursion - if next point is unavailable to move.
 			MoveRandom(Seed+1);
