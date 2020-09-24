@@ -1,13 +1,20 @@
 #include "Pickup.h"
 #include "Player.h"
+#include "Game.h"
 
-
-Pickup::Pickup(EObjectType PickupType)
+Pickup::Pickup(EObjectType PickupType, class GamePlay* Game)
 {
 	m_PickupType = PickupType;
 	m_look = static_cast<char>(m_PickupType);
 	bIsPickedUp = false;
 	SetEffect();
+
+	if (Game)
+	{
+		shared_ptr<class GamePlay> sp(Game);
+		m_GamePlay = sp;
+	}
+
 }
 
 void Pickup::OnPickup(Player* NewOwner)
@@ -18,9 +25,11 @@ void Pickup::OnPickup(Player* NewOwner)
 		NewOwner->Slot1.Amount++;
 		break;
 	case EObjectType::ARMOR:
+		NewOwner->Slot2.Amount = 1;
 		Effect(NewOwner);
 		break;
 	case EObjectType::WEAPON:
+		NewOwner->Slot3.Amount = 1;
 		Effect(NewOwner);
 		break;
 
@@ -35,6 +44,10 @@ void Pickup::OnPickup(Player* NewOwner)
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
+	}
+	if (m_GamePlay)
+	{
+		m_GamePlay->RemovePickup(this);
 	}
 }
 

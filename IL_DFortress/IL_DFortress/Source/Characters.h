@@ -36,6 +36,7 @@ public:
 	* @Spawn location on Y
 	*/
 	Character();
+	
 protected:
 	//Pointer to active console
 	shared_ptr<class DzX_Console> m_ActiveConsole;
@@ -51,6 +52,7 @@ public:
 	CharStats m_Stats;
 	CharStats m_BaseStats;
 	EPlayerState m_PlayerState;
+	EObjectType m_CharType;
 	//On what field character is on top of
 	char m_currentField;
 private:

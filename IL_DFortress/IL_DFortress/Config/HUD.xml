@@ -2,6 +2,6 @@
 <Main FormatVersion="1">
     <Data>
         <Top Topology="0000000000000000000000000000000000000000000000000&#10;0000000000000000000000000000000000000000000000000&#10;0000000000000000000000000000000000000000000000000&#10;"/>
-		<Bot Topology="      (W)Up&#10;(A)Left (S)Down (D)Right&#10; &#10;(e) - Pick up                            (s) Save"/>
+		<Bot Topology="      (W)Up&#10;(A)Left (S)Down (D)Right&#10; &#10;(e) - Pick up                           (F5) Save"/>
     </Data>
 </Main>

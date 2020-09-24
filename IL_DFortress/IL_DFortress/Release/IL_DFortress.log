@@ -1,7 +1,7 @@
-﻿  Global.cpp
+﻿  Game.cpp
   Generating code
-  19 of 494 functions ( 3.8%) were compiled, the rest were copied from previous compilation.
-    14 functions were new in current compilation
-    21 functions had inline decision re-evaluated but remain unchanged
+  0 of 1031 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   IL_DFortress.vcxproj -> E:\Dezex\Projects\IL_DFortress\IL_DFortress\Release\IL_DFortress.exe

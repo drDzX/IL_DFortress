@@ -1,12 +1,14 @@
 #include "Enemy.h"
 #include "Pickup.h"
+#include "Game.h"
 Enemy::Enemy(EObjectType EnemyType)
 {
 
 	m_look = static_cast<char>(EnemyType);
+	m_CharType = EnemyType;
 	switch (EnemyType)
 	{
-	case EObjectType::ENEMY_1:
+	case EObjectType::ENEMY_1:		
 		m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1","STR"));
 		m_Stats.Defence = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1", "DEF"));
 		m_Stats.MaxHealth = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1", "HP"));
@@ -78,7 +80,7 @@ void Enemy::DropItem()
 	EObjectType DropType;
 	rand() % 2 == 0 ? DropType = EObjectType::ARMOR : DropType = EObjectType::WEAPON;
 	
-	Pickup* Drop = new Pickup(DropType);
+	Pickup* Drop = new Pickup(DropType,m_ActiveGame);
 	m_ActiveGame->m_Pickups.push_back(Drop);
 	Drop->Spawn(this->GetPosition(), m_ActiveConsole);
 }
@@ -94,6 +96,10 @@ void Enemy::OverlappEvent()
 void Enemy::Die()
 {
 	Character::Die();
+	if (m_ActiveGame)
+	{
+		m_ActiveGame->RemoveEnemy(this);
+	}	
 	DropItem();
 	//Destroy
 }

@@ -1,6 +1,7 @@
 ﻿#include "DzX_ConsoleEngine.h"
 #include <Windows.h>
-
+#include "Characters.h"
+#include "MainMenu.h"
 
 
 DzX_Console::DzX_Console()
@@ -10,7 +11,7 @@ DzX_Console::DzX_Console()
 
 	//m_handleConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
 	m_ScreenSize.X = 150;
-	m_ScreenSize.Y = 150;
+	m_ScreenSize.Y = 40;
 	m_ScreenRect.Top = 0;
 	m_ScreenRect.Left = 0;
 	m_ScreenRect.Bottom = m_ScreenSize.Y;
@@ -22,16 +23,16 @@ void DzX_Console::GoToXY(int x, int y)
 {
 	m_CursorPos.X = x;
 	m_CursorPos.Y = y;
-	SetConsoleCursorPosition(m_handleConsoleOut, m_CursorPos);
 	SetCursor(false, 20);
+	SetConsoleCursorPosition(m_handleConsoleOut, m_CursorPos);
 }
 
 void DzX_Console::GoToXY(int x, int y, std::string text)
 {
 	m_CursorPos.X = x;
 	m_CursorPos.Y = y;
-	SetConsoleCursorPosition(m_handleConsoleOut, m_CursorPos);
 	SetCursor(false, 20);
+	SetConsoleCursorPosition(m_handleConsoleOut, m_CursorPos);
 	cout << text;
 }
 
@@ -40,7 +41,8 @@ void DzX_Console::UpdateConsoleSize()
 	if (m_handleConsoleOut == INVALID_HANDLE_VALUE)
 	{
 		Error(L"Bad Handle");
-	}		
+	}	
+	SetCursor(false, 20);
 	SetConsoleScreenBufferSize(m_handleConsoleOut, m_ScreenSize);
 	SetConsoleWindowInfo(m_handleConsoleOut, true, &m_ScreenRect);
 }
@@ -166,11 +168,20 @@ void DzX_Console::Error(const wchar_t* msg)
 
 void DzX_Console::BeginPlay()
 {
+	SetColor(7);
 	m_Menu = make_unique<MainMenu>();
 	if (m_Menu)
 	{
 		UpdateConsoleSize();
-		m_Menu->NewGame(this);		
+		if (PR_DEBUG==1)
+		{
+			m_Menu->NewGame(this);
+		}
+		else
+		{
+			m_Menu->LoadMenu(this);
+		}
+
 	}
 }
 

@@ -4,19 +4,18 @@
 class Pickup
 {
 public:
-	Pickup(EObjectType PickupType);
+	Pickup(EObjectType PickupType, class GamePlay*Game);
 
 
 
 	//Pointer to active console
 	shared_ptr<class DzX_Console> m_ActiveConsole;
-
+	//Pointer to game mode
+	shared_ptr<class GamePlay> m_GamePlay;
 	//Shape of this item
 	std::wstring m_look;
 	
 	EObjectType m_PickupType;
-
-	CharStats PickupBoostStats;
 
 	COORD m_SpawnCoord;
 	int m_EffectIntensity;
@@ -24,9 +23,9 @@ public:
 	bool bIsPickedUp;
 
 	//Pickup event
-	void OnPickup(Player*NewOwner);
+	void OnPickup(class Player*NewOwner);
 	//Start effect
-	void Effect(Player* EffectOnPlayer);
+	void Effect(class Player* EffectOnPlayer);
 	void Spawn(COORD SpawnPos, shared_ptr<class DzX_Console> console);
 	void Draw();
 

@@ -1,9 +1,10 @@
 #include "Player.h"
 #include "Pickup.h"
 #include "Enemy.h"
-
+#include "Game.h"
 Player::Player()
 {
+	m_CharType = EObjectType::PLAYER;
 	m_look = static_cast<char>(EObjectType::PLAYER);
 	Slot1.Setup(this, EObjectType::HPPOTION);
 	Slot2.Setup(this, EObjectType::ARMOR);
@@ -80,7 +81,7 @@ void Player::PickupEvent()
 				if (p1.X == p0.X && p1.Y == p0.Y)
 				{
 					PCK->OnPickup(this);
-					delete PCK;
+					//delete PCK;
 				}
 			}
 

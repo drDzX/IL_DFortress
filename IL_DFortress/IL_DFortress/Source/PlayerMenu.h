@@ -6,7 +6,7 @@ class HUD
 	
 public:
 	
-	HUD(GamePlay* GameMode);
+	HUD(class GamePlay* GameMode);
 
 	int m_PlayerMaxHP;
 	shared_ptr < class  Player > m_Player;

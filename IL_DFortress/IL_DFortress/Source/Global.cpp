@@ -30,3 +30,18 @@ std::string ReadXML(const char InPath[], const char NodeName[], const char Attri
     }
     return "";
 }
+
+std::string ReadXML(const char InPath[], const char NodeName[], const char NodeChildren[], const char Attribute[])
+{
+    pugi::xml_document doc;
+    pugi::xml_parse_result result = doc.load_file(InPath);
+    /*  if (!result)
+          return "";*/
+
+    for (pugi::xml_node tool : doc.child("NodeName").children(NodeChildren))
+    {
+        //Return first node attribute value
+        return  tool.attribute(Attribute).value();
+    }
+    return "";
+}

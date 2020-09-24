@@ -37,9 +37,16 @@ public:
 
 	void GameOver();
 
+	void RemovePickup(class Pickup* PickupToRemove);
+	void RemoveEnemy(class Enemy* EnemyToRemove);
+
+	void StartLoadGame();
+	void StartNewGame();
 private:
 	void DrawWorld();
 
+
+	void SaveGame();
 
 	void DrawEnemies();
 	void MoveEnemies();

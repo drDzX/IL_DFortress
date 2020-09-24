@@ -2,7 +2,6 @@
 #include "Characters.h"
 #include "Global.h"
 #include "Pickup.h"
-
 struct InventorySlot
 {
 	EObjectType SlotType;
@@ -13,7 +12,7 @@ struct InventorySlot
 	{
 		if (Amount > 0)
 		{
-			unique_ptr<class Pickup> SlotEffect = make_unique<Pickup>(SlotType);
+			unique_ptr<class Pickup> SlotEffect = make_unique<Pickup>(SlotType,nullptr);
 			SlotEffect->Effect(Owner.get());
 			Amount--;
 		}
@@ -49,6 +48,6 @@ public:
 	void PickupEvent();
 	bool CheckForEnemiesAround(COORD &EnemyCoord);
 
-	void Fight(Enemy * Opponent);
+	void Fight(class Enemy * Opponent);
 
 };

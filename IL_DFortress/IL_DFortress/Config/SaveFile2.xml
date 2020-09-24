@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Pickups>
+	<Pickup Type="56" PosX="8" PosY="16" />
+	<Pickup Type="56" PosX="21" PosY="12" />
+	<Pickup Type="56" PosX="21" PosY="12" />
+</Pickups>
+<Enemies>
+	<Enemy Type="72" PosX="10" PosY="23" />
+	<Enemy Type="64" PosX="16" PosY="4" />
+	<Enemy Type="72" PosX="23" PosY="17" />
+	<Enemy Type="64" PosX="37" PosY="13" />
+	<Enemy Type="72" PosX="36" PosY="12" />
+</Enemies>
+<Player Type="40" PosX="5" PosY="5" HP="10" STR="5" DEF="1" INV1="0" INV2="0" INV3="0" />
