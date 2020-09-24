@@ -1,11 +1,3 @@
-﻿  Characters.cpp
-  DzX_ConsoleEngine.cpp
-  Enemy.cpp
-  Game.cpp
-  Global.cpp
-  MainMenu.cpp
-  Pickup.cpp
-  Player.cpp
-  PlayerMenu.cpp
-  Generating Code...
+﻿  Game.cpp
+E:\Dezex\Projects\IL_DFortress\IL_DFortress\IL_DFortress\Source\Game.cpp(210): warning C4715: 'GamePlay::GetRandomPoint': not all control paths return a value
   IL_DFortress.vcxproj -> E:\Dezex\Projects\IL_DFortress\IL_DFortress\Debug\IL_DFortress.exe

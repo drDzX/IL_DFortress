@@ -36,7 +36,6 @@ public:
 	* @Spawn location on Y
 	*/
 	Character();
-	~Character();
 protected:
 	//Pointer to active console
 	shared_ptr<class DzX_Console> m_ActiveConsole;
@@ -76,9 +75,10 @@ public:
 	void UpdateDEF(int InChange);
 
 	virtual void Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY);
-protected:
 	//Attack
 	virtual void Attack(class Character* Enemy);
+protected:
+
 	//Death
 	virtual void Die();
 };

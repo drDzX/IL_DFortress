@@ -14,14 +14,13 @@ public:
 	shared_ptr<class DzX_Console> m_Console;
 
 	void DrawHud();
-
+	void UpdateHud();
 	
 
 	void BeginPlay();
 	void GetInterfaceLook();
 
 private:
-	vector<std::string> m_borkenString;
-	std::string m_InterfaceLook;
-
+	vector<std::string> m_borkenStringUITop;
+	vector<std::string> m_borkenStringUIBot;
 };

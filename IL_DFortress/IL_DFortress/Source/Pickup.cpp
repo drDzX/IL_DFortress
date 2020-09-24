@@ -2,70 +2,63 @@
 #include "Player.h"
 
 
-Pickup::Pickup(EObjectType PickupType, shared_ptr<class DzX_Console> console)
+Pickup::Pickup(EObjectType PickupType)
 {
-	m_ActiveConsole = console;
 	m_PickupType = PickupType;
 	m_look = static_cast<char>(m_PickupType);
 	bIsPickedUp = false;
+	SetEffect();
 }
 
 void Pickup::OnPickup(Player* NewOwner)
 {
-	//Transfer stats to player inventory
-	shared_ptr<Player> _player(NewOwner);
-	m_Owner = _player;	
-
-
-	shared_ptr<Pickup> LocalPtr(this);
-
 	switch (m_PickupType)
 	{
 	case EObjectType::HPPOTION:
-		m_Owner->Slot1= LocalPtr;
+		NewOwner->Slot1.Amount++;
 		break;
 	case EObjectType::ARMOR:
-		m_Owner->Slot2 = LocalPtr;
+		Effect(NewOwner);
 		break;
 	case EObjectType::WEAPON:
-		m_Owner->Slot3 = LocalPtr;
+		Effect(NewOwner);
 		break;
-	case EObjectType::ADRENALIN:
-		m_Owner->Slot4 = LocalPtr;
-		break;
+
 	}
-	m_Owner->m_currentField = static_cast<char>(EObjectType::SPAWNABLE);
+	NewOwner->m_currentField = static_cast<char>(EObjectType::SPAWNABLE);
 	bIsPickedUp = true;
 	//Destroy shape
+	m_ActiveConsole->GoToXY(m_SpawnCoord.X, m_SpawnCoord.Y);
 	cout << static_cast<char>(EObjectType::SPAWNABLE);
+	if (m_PickupType == EObjectType::ARMOR || m_PickupType == EObjectType::WEAPON)
+	{	
+		cout << static_cast<char>(EObjectType::SPAWNABLE);
+		cout << static_cast<char>(EObjectType::SPAWNABLE);
+		cout << static_cast<char>(EObjectType::SPAWNABLE);
+	}
 }
 
-void Pickup::Effect()
+void Pickup::Effect(Player* EffectOnPlayer)
 {
+
 	switch (m_PickupType)
 	{
 	case EObjectType::HPPOTION:
-		m_Owner->UpdateHP(m_EffectIntensity);
+		EffectOnPlayer->UpdateHP(m_EffectIntensity);
 		break;
 	case EObjectType::ARMOR:
-		m_Owner->UpdateDEF(m_EffectIntensity);
+		EffectOnPlayer->UpdateDEF(m_EffectIntensity);
 		break;
 	case EObjectType::WEAPON:
-		m_Owner->UpdateSTR(m_EffectIntensity);
+		EffectOnPlayer->UpdateSTR(m_EffectIntensity);
 		break;
-	case EObjectType::ADRENALIN:
-		int CurrentSTR=m_Owner->m_Stats.Strength;
-		m_Owner->UpdateSTR(m_EffectIntensity);
-		Sleep(500);
-		m_Owner->m_Stats.Strength = CurrentSTR;
-		break;
+
 	}
-	//delete this object
-	delete this;
 }
 
-void Pickup::Spawn(COORD SpawnPos)
+void Pickup::Spawn(COORD SpawnPos, shared_ptr<class DzX_Console> console)
 {
+	m_ActiveConsole = console;
 	m_SpawnCoord = SpawnPos;
 }
 
@@ -73,10 +66,18 @@ void Pickup::Draw()
 {
 	if (m_ActiveConsole && !bIsPickedUp)
 	{
+		m_ActiveConsole->SetColor(14);
 		m_ActiveConsole->GoToXY(m_SpawnCoord.X, m_SpawnCoord.Y);
+
 		std::wcout << m_look;
+		if (m_PickupType == EObjectType::ARMOR || m_PickupType == EObjectType::WEAPON)
+		{
+			std::wcout << "+"<<m_EffectIntensity;
+		}
+		m_ActiveConsole->SetColor(7);
 	}
 }
+
 
 void Pickup::SetEffect()
 {
@@ -91,8 +92,6 @@ void Pickup::SetEffect()
 	case EObjectType::WEAPON:
 		m_EffectIntensity = 2;
 		break;
-	case EObjectType::ADRENALIN:
-		m_EffectIntensity = 10;
-		break;
+
 	}
 }

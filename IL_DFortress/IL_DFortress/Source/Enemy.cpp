@@ -1,11 +1,24 @@
 #include "Enemy.h"
-
-Enemy::Enemy()
+#include "Pickup.h"
+Enemy::Enemy(EObjectType EnemyType)
 {
 
-	m_look = static_cast<char>(EObjectType::ENEMY_1);
-	m_Stats.Strength = 3;
-	m_Stats.Defence = 1;
+	m_look = static_cast<char>(EnemyType);
+	switch (EnemyType)
+	{
+	case EObjectType::ENEMY_1:
+		m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1","STR"));
+		m_Stats.Defence = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1", "DEF"));
+		m_Stats.MaxHealth = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy1", "HP"));
+		m_Stats.CurrentHealth = m_Stats.MaxHealth;
+		break;
+	case EObjectType::ENEMY_2:
+		m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy2", "STR"));
+		m_Stats.Defence = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy2", "DEF"));
+		m_Stats.MaxHealth = stoi(ReadXML("Config/GamePlay_Settings.xml", "Enemy2", "HP"));
+		m_Stats.CurrentHealth = m_Stats.MaxHealth;
+		break;
+	}
 }
 
 void Enemy::MoveRandom(int Seed)
@@ -13,7 +26,7 @@ void Enemy::MoveRandom(int Seed)
 	if (m_ActiveConsole)
 	{
 
-		unsigned int RandSeed =  (unsigned int)time(0) + (Seed * 2);
+		unsigned int RandSeed = (unsigned int)time(0) + (Seed * 2);
 		srand(RandSeed);
 		int X;
 		int Y;
@@ -45,7 +58,7 @@ void Enemy::MoveRandom(int Seed)
 		if (c != static_cast<char>(EObjectType::SPAWNABLE))
 		{
 			//Recursion - if next point is unavailable to move.
-			MoveRandom(Seed+1);
+			MoveRandom(Seed + 1);
 		}
 		else
 		{
@@ -53,5 +66,35 @@ void Enemy::MoveRandom(int Seed)
 		}
 
 	}
+	OverlappEvent();
+}
+
+void Enemy::DropItem()
+{
+	//Create random seed by current time
+	unsigned int RandSeed = (unsigned int)time(0);
+	srand(RandSeed);
+	//Random between to get Armor or Weapon to drop;
+	EObjectType DropType;
+	rand() % 2 == 0 ? DropType = EObjectType::ARMOR : DropType = EObjectType::WEAPON;
+	
+	Pickup* Drop = new Pickup(DropType);
+	m_ActiveGame->m_Pickups.push_back(Drop);
+	Drop->Spawn(this->GetPosition(), m_ActiveConsole);
+}
+
+void Enemy::OverlappEvent()
+{
+	if (m_currentField == static_cast<char>(EObjectType::PLAYER))
+	{
+		Attack((Character*)m_ActiveGame->m_Player.get());
+	}
+}
+
+void Enemy::Die()
+{
+	Character::Die();
+	DropItem();
+	//Destroy
 }
 

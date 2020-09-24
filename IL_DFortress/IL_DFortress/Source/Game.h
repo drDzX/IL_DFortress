@@ -28,8 +28,8 @@ public:
 
 
 	EGameState m_GameState;
-	std::array<class Enemy*, 15> m_Enemies;
-	std::array<class Pickup*, 15> m_Pickups;
+	std::vector<class Enemy*>m_Enemies;
+	std::vector<class Pickup*> m_Pickups;
 
 	shared_ptr<class DzX_Console> m_Console;
 	shared_ptr < class  Player > m_Player;

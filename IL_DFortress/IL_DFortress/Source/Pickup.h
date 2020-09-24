@@ -4,7 +4,7 @@
 class Pickup
 {
 public:
-	Pickup(EObjectType PickupType, shared_ptr<class DzX_Console> console);
+	Pickup(EObjectType PickupType);
 
 
 
@@ -22,13 +22,16 @@ public:
 	int m_EffectIntensity;
 
 	bool bIsPickedUp;
-	shared_ptr<class Player> m_Owner;
+
 	//Pickup event
 	void OnPickup(Player*NewOwner);
 	//Start effect
-	void Effect();
-	void Spawn(COORD SpawnPos);
+	void Effect(Player* EffectOnPlayer);
+	void Spawn(COORD SpawnPos, shared_ptr<class DzX_Console> console);
 	void Draw();
+
+
+
 private:
 	//Setup effects internaly
 	void SetEffect();

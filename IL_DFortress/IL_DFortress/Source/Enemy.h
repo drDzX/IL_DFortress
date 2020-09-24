@@ -6,8 +6,14 @@
 class Enemy :public Character
 {
 public:
-	Enemy();
+	Enemy(EObjectType EnemyType=EObjectType::ENEMY_1);
 
 	void MoveRandom(int Seed = 0);
+
+	void DropItem();
+
+	void OverlappEvent();
+
+	virtual void Die()override;
 
 };

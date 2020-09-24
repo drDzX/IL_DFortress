@@ -10,17 +10,12 @@ Character::Character()
 	m_PlayerState = EPlayerState::ALIVE;	
 }
 
-Character::~Character()
-{
-	delete m_ActiveGame;
-}
-
 void Character::EraseCharacter()
 {
 	if (m_ActiveConsole)
 	{
 		m_ActiveConsole->GoToXY(m_posX, m_posY);
-		cout << m_currentField;
+		cout << static_cast<char>(EObjectType::SPAWNABLE);
 	}
 }
 
@@ -127,16 +122,16 @@ void Character::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>
 void Character::Attack(class Character* Enemy)
 {
 	int Damage = m_Stats.Strength - Enemy->m_Stats.Defence;
-	Enemy->UpdateHP(-Damage);
+	Enemy->UpdateHP((-1)*Damage);
 }
 
 void Character::Die()
 {
 	m_PlayerState = EPlayerState::DEAD;
-	if (m_ActiveGame)
-	{
-		m_ActiveGame->GameOver();
-	}
+	//if (m_ActiveGame)
+	//{
+	//	m_ActiveGame->GameOver();
+	//}
 }
 
 //std::vector<int, int> Character::GetPosition()

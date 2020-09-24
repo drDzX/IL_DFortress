@@ -18,8 +18,13 @@ public:
 	DzX_Console();
 	void BeginPlay();
 	void GoToXY(int x, int y);
+	void GoToXY(int x, int y, std::string text);
 	void UpdateConsoleSize();
 	char GetCharAtPosition(int X, int Y);
+
+	void SetColor(int value);
+
+	void Draw(int style, int startCol, int startRow, int width, int height, bool fill, int sw);
 
 private:
 	void SetCursor(bool bIsVisible, DWORD size);

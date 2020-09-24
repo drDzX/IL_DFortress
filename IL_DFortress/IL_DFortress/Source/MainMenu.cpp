@@ -17,6 +17,7 @@ void MainMenu::NewGame(DzX_Console*Console)
 	m_NewGameInstance = make_unique<class GamePlay>(m_Console);
 	if (m_NewGameInstance)
 	{
+
 		m_NewGameInstance->BeginPlay();
 	}
 }
