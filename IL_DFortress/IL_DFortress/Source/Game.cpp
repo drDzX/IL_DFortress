@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Pickup.h"
 #include "PlayerMenu.h"
+#include "MainMenu.h"
 #include <boost/range/adaptor/indexed.hpp>
 #include <boost/assign.hpp>
 
@@ -21,6 +22,7 @@ GamePlay::GamePlay(shared_ptr<DzX_Console> console)
 }
 void GamePlay::StartNewGame()
 {
+	system("cls");
 	m_WorldLook = ReadXML("Config/world.xml", "World", "Topology");
 	//Draw world so we can take char from field where player will be spawned.
 	DrawWorld();
@@ -46,7 +48,11 @@ void GamePlay::BeginPlay()
 
 
 	//Create HUD
-	m_HUD = make_shared<class HUD>(this);
+	if (!m_HUD)
+	{
+		m_HUD = make_shared<class HUD>(this);
+	}
+
 	m_HUD->BeginPlay();
 	
 	Play();
@@ -65,8 +71,10 @@ void GamePlay::Play()
 		//Catch input
 		if (_kbhit())
 		{
+
 			//char ch = _getch();
 			int ASCII_Key = _getch();
+
 			if (ASCII_Key == 97 || ASCII_Key == 65)/*A*/
 			{
 				m_Player->MoveTo(-1, 0);
@@ -95,10 +103,18 @@ void GamePlay::Play()
 			{
 				SaveGame();
 			}
-			//Push draw enemies to another thread
-			std::thread t1(&GamePlay::MoveEnemies, this);
-			t1.join();
-			//m_Player->GetPosition();
+			if (ASCII_Key == 120 || ASCII_Key == 88 /*X*/)
+			{
+				m_GameState = EGameState::GameStopped;
+				m_Console->m_Menu->LoadMenu();
+			}
+			if (ASCII_Key != 63/*F5*/ && ASCII_Key!=0)
+			{
+				//Push draw enemies to another thread
+				std::thread t1(&GamePlay::MoveEnemies, this);
+				t1.join();
+			}
+
 		}
 		//Push draw enemies to another thread
 		std::thread t2(&GamePlay::DrawEnemies, this);
@@ -115,10 +131,12 @@ void GamePlay::Play()
 
 }
 
+
 void GamePlay::GameOver()
 {
 
 }
+
 
 void GamePlay::RemovePickup(class Pickup* PickupToRemove)
 {
@@ -173,6 +191,9 @@ void GamePlay::SaveGame()
 		PlayerNode.append_attribute("INV1") = m_Player->Slot1.Amount;
 	}
 	doc.save_file("Config/SaveFile.xml");
+
+	m_GameState = EGameState::GameStopped;
+	m_Console->m_Menu->LoadMenu();
 }
 
 void GamePlay::StartLoadGame()
@@ -310,7 +331,7 @@ void GamePlay::SpawnEnemies(int NoOfEnemies)
 		char ch = m_Console->GetCharAtPosition(RandSpawnPoint.X, RandSpawnPoint.Y);
 		//Set field on top of which is player
 		TempNME->SetCurrentField(ch);
-
+		m_Console->GoToXY(0, 0);
 		//delete TempNME;
 	}
 }
@@ -321,10 +342,13 @@ COORD GamePlay::GetRandomPoint(int Seed)
 	srand((unsigned int)time(0) + (Seed * rand()));
 	if (m_Console)
 	{
-		int X = m_GamePlayArea.Left + (std::rand() % (m_GamePlayArea.Right - m_GamePlayArea.Left + 1));
-		int Y = m_GamePlayArea.Top + (std::rand() % (m_GamePlayArea.Bottom - m_GamePlayArea.Top + 1));
+		int X = m_GamePlayArea.Left + (std::rand() % (m_GamePlayArea.Right - m_GamePlayArea.Left ));
+		int Y = m_GamePlayArea.Top + (std::rand() % (m_GamePlayArea.Bottom - m_GamePlayArea.Top ));
 		char c = m_Console->GetCharAtPosition(X, Y);
-		if (c != static_cast<char>(EObjectType::SPAWNABLE))
+		bool bInRange = X < m_GamePlayArea.Right&& Y < m_GamePlayArea.Bottom;
+		char field = static_cast<char>(EObjectType::SPAWNABLE);
+		bool bEqual = c != field;
+		if (bEqual || !bInRange)
 		{
 			return GetRandomPoint(Seed + 1);
 		}

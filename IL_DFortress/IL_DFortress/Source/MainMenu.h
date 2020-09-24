@@ -13,13 +13,13 @@ public:
 
 	void ButtonPressed(int Index);
 
-	void NewGame(DzX_Console* Console=nullptr /* this input is for debugg mode*/);
+	void NewGame(DzX_Console* Console = nullptr /* this input is for debugg mode*/);
 	void LoadGame();
 
-	void LoadMenu(DzX_Console* Console);
+	void LoadMenu(DzX_Console* Console = nullptr);
 
 	bool m_bIsInMenu;
 
-	unique_ptr<class GamePlay> m_NewGameInstance;
+	class GamePlay* m_GameInstance;
 	shared_ptr<class DzX_Console> m_Console;
 };

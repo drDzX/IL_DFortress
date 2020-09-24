@@ -112,6 +112,7 @@ void Character::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>
 	if (CurrentConsole)
 	{
 		m_ActiveConsole = CurrentConsole;
+		m_ActiveConsole->GoToXY(0, 0);
 	}
 	else
 	{

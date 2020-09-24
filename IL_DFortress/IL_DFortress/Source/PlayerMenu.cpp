@@ -6,10 +6,10 @@ HUD::HUD(GamePlay* GameMode)
 {
 	if (GameMode)
 	{
-		m_Player = GameMode->m_Player;
-		m_Console = GameMode->m_Console;
-		shared_ptr<class GamePlay> PG(GameMode);
-		m_Game = PG;
+		shared_ptr<class DzX_Console> _console(GameMode->m_Console);
+		shared_ptr<class Player> _ply(GameMode->m_Player.get());
+		m_Player = _ply;
+		m_Console = _console;
 	}
 	if (m_Player)
 	{
@@ -49,7 +49,7 @@ void HUD::DrawHud()
 		for (auto s : m_borkenStringUIBot)
 		{
 			//Offset it to match UI position
-			m_Console->GoToXY(61, 22 + RowAdd);
+			m_Console->GoToXY(61, 23 + RowAdd);
 			//Print
 			std::cout << s;
 			//Add for next row
@@ -88,7 +88,7 @@ void HUD::DrawHud()
 
 void HUD::UpdateHud()
 {
-	if (m_Console)
+	if (m_Console && m_Player)
 	{
 		m_Console->GoToXY(62, 6);
 
@@ -129,6 +129,7 @@ void HUD::UpdateHud()
 		}
 	}
 }
+
 
 void HUD::BeginPlay()
 {

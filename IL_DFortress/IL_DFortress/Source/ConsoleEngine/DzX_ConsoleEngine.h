@@ -23,7 +23,7 @@ public:
 	void SetColor(int value);
 
 	void Draw(int style, int startCol, int startRow, int width, int height, bool fill, int sw);
-
+	shared_ptr<class MainMenu> m_Menu;
 private:
 	void SetCursor(bool bIsVisible, DWORD size);
 
@@ -33,7 +33,7 @@ protected:
 	COORD m_CursorPos;
 	_COORD  m_ScreenSize;
 	_SMALL_RECT  m_ScreenRect;
-	unique_ptr<class MainMenu> m_Menu;
+
 
 
 	COORD GetConsoleCursorPosition(HANDLE hConsoleOutput);

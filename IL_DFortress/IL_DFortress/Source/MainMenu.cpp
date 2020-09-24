@@ -4,6 +4,7 @@
 MainMenu::MainMenu()
 {
 	m_bIsInMenu = true;
+	m_GameInstance = nullptr;
 }
 
 void MainMenu::ButtonPressed(int Index)
@@ -24,11 +25,13 @@ void MainMenu::NewGame(DzX_Console* Console)
 	}
 	if (m_Console)
 	{
-		m_NewGameInstance = make_unique<class GamePlay>(m_Console);
-		if (m_NewGameInstance)
+		if (!m_GameInstance)
 		{
-
-			m_NewGameInstance->StartNewGame();
+			m_GameInstance = new GamePlay(m_Console);
+		}
+		if (m_GameInstance)
+		{
+			m_GameInstance->StartNewGame();
 		}
 	}
 }
@@ -37,24 +40,31 @@ void MainMenu::LoadGame()
 {
 	if (m_Console)
 	{
-		m_NewGameInstance = make_unique<class GamePlay>(m_Console);
-		if (m_NewGameInstance)
-		{
+		m_GameInstance = new GamePlay(m_Console);
 
-			m_NewGameInstance->StartLoadGame();
+		if (m_GameInstance)
+		{
+			m_GameInstance->StartLoadGame();
 		}
 	}
 }
 
 void MainMenu::LoadMenu(DzX_Console* Console)
 {
+	system("cls");
 	m_bIsInMenu = true;
-	shared_ptr<class DzX_Console> _cons(Console);
-	m_Console = _cons;
-
+	if (m_GameInstance)
+	{
+		m_GameInstance = nullptr;
+	}
+	if (!m_Console)
+	{
+		shared_ptr<class DzX_Console> _cons(Console);
+		m_Console = _cons;
+	}
 	m_Console->Draw(2, 0, 0, 31, 8, 0, 1);
 	m_Console->GoToXY(1, 1);
-	cout << "--------- Main Menu ---------"<<endl;
+	cout << "--------- Main Menu ---------" << endl;
 	m_Console->GoToXY(1, 3);
 	cout << "	1.New Game" << endl;
 	m_Console->GoToXY(1, 4);

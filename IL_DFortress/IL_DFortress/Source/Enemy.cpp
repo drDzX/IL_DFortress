@@ -55,16 +55,19 @@ void Enemy::MoveRandom(int Seed)
 			X = 0;
 			Y = 0;
 		}
-
-		char c = m_ActiveConsole->GetCharAtPosition(m_posX + X, m_posY + Y);
-		if (c != static_cast<char>(EObjectType::SPAWNABLE))
+		
+		if (m_posX + X < m_ActiveGame->m_GamePlayArea.Right, m_posY + Y < m_ActiveGame->m_GamePlayArea.Bottom)
 		{
-			//Recursion - if next point is unavailable to move.
-			MoveRandom(Seed + 1);
-		}
-		else
-		{
-			MoveTo(X, Y);
+			char c = m_ActiveConsole->GetCharAtPosition(m_posX + X, m_posY + Y);
+			if (c != static_cast<char>(EObjectType::SPAWNABLE))
+			{
+				//Recursion - if next point is unavailable to move.
+				MoveRandom(Seed + 1);
+			}
+			else
+			{
+				MoveTo(X, Y);
+			}
 		}
 
 	}

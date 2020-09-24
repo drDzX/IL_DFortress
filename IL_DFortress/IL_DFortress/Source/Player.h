@@ -6,22 +6,21 @@ struct InventorySlot
 {
 	EObjectType SlotType;
 	int Amount;
-	unique_ptr<class Player> Owner;
+	class Player* Owner;
 
 	void ExecuteEffect()
 	{
 		if (Amount > 0)
 		{
 			unique_ptr<class Pickup> SlotEffect = make_unique<Pickup>(SlotType,nullptr);
-			SlotEffect->Effect(Owner.get());
+			SlotEffect->Effect(Owner);
 			Amount--;
 		}
 	};
 
-	void Setup(class Player* NewOwner, EObjectType NewType)
-	{
-		unique_ptr<class Player> _Owner(NewOwner);
-		Owner = std::move(_Owner);
+	void Setup(Player* NewOwner, EObjectType NewType)
+	{		
+		Owner = NewOwner;
 
 		SlotType = NewType;
 	};
@@ -37,6 +36,7 @@ class Player :public Character
 public:
 	Player();
 	virtual void Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY)override;
+
 
 	InventorySlot Slot1;//HP
 	InventorySlot Slot2;//Armor

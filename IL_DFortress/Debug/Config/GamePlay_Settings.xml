@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
-<Main FormatVersion="1">
-    <Data>
-        <GameSettings NoOfEnemies="5"/>
-		<Player HP="10" STR="5" DEF="1"/>
-		<Enemy1 HP="2" STR="4" DEF="2"/>
-		<Enemy2 HP="5" STR="7" DEF="2"/>
-    </Data>
-</Main>

@@ -10,8 +10,8 @@ DzX_Console::DzX_Console()
 	m_handleConsoleOut=GetStdHandle(STD_OUTPUT_HANDLE);
 
 	//m_handleConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
-	m_ScreenSize.X = 150;
-	m_ScreenSize.Y = 40;
+	m_ScreenSize.X = 110;
+	m_ScreenSize.Y = 30;
 	m_ScreenRect.Top = 0;
 	m_ScreenRect.Left = 0;
 	m_ScreenRect.Bottom = m_ScreenSize.Y;
@@ -56,9 +56,13 @@ char DzX_Console::GetCharAtPosition(int X, int Y)
 	loc.Y = Y;
 	//COORD loc=GetConsoleCursorPosition(m_handleConsoleOut);
 	
+	if (m_handleConsoleOut)
+	{
+
 	//#TODO - Stack overflow
 	ReadConsoleOutputCharacter(m_handleConsoleOut, (LPTSTR)buffer, 1, loc, (LPDWORD)&num_read);
-	
+
+	}
 	return buffer[0];
 }
 
@@ -169,7 +173,7 @@ void DzX_Console::Error(const wchar_t* msg)
 void DzX_Console::BeginPlay()
 {
 	SetColor(7);
-	m_Menu = make_unique<MainMenu>();
+	m_Menu = make_shared<MainMenu>();
 	if (m_Menu)
 	{
 		UpdateConsoleSize();
@@ -188,15 +192,12 @@ void DzX_Console::BeginPlay()
 int main()
 {
 
-	DzX_Console* Console = new DzX_Console();
+	unique_ptr<DzX_Console>Console = make_unique<DzX_Console>();
 	if (Console)
 	{	
 		Console->BeginPlay();
 		
 	}
-
 	std::cin.get();
-
-	delete Console;
 
 }

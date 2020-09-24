@@ -18,14 +18,13 @@ class GamePlay
 {
 
 private:
-	SMALL_RECT m_GamePlayArea;
+
 	std::string m_WorldLook;
 public:
 	GamePlay(shared_ptr<class DzX_Console> console);
-
+	SMALL_RECT m_GamePlayArea;
 	void BeginPlay();
 	void Play();
-
 
 	EGameState m_GameState;
 	std::vector<class Enemy*>m_Enemies;
@@ -36,7 +35,6 @@ public:
 	shared_ptr<class HUD> m_HUD;
 
 	void GameOver();
-
 	void RemovePickup(class Pickup* PickupToRemove);
 	void RemoveEnemy(class Enemy* EnemyToRemove);
 
@@ -44,6 +42,7 @@ public:
 	void StartNewGame();
 private:
 	void DrawWorld();
+
 
 
 	void SaveGame();
