@@ -16,6 +16,7 @@ Player::Player()
 
 void Player::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY)
 {
+	PROFILING_FUNCTION();
 	Character::Spawn(CurrentGame, CurrentConsole, spawnX, spawnY);
 
 	m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Player", "STR"));
@@ -29,6 +30,7 @@ void Player::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>Cur
 
 void Player::UseInventorySlot(int InventorySlot)
 {
+	PROFILING_FUNCTION();
 	//Switch to called slot and execute its effect 
 	switch (InventorySlot)
 	{
@@ -48,6 +50,7 @@ void Player::UseInventorySlot(int InventorySlot)
 
 void Player::OverlappEvent()
 {
+	PROFILING_FUNCTION();
 	//Check if there are enemies around player and return their position 
 	COORD EnemyPos;
 	if (CheckForEnemiesAround(EnemyPos))
@@ -73,6 +76,7 @@ void Player::OverlappEvent()
 
 void Player::PickupEvent()
 {
+	PROFILING_FUNCTION();
 	//If player is on top of the pickup
 	if (m_currentField != static_cast<char>(EObjectType::SPAWNABLE))
 	{
@@ -97,6 +101,7 @@ void Player::PickupEvent()
 
 bool Player::CheckForEnemiesAround(COORD& EnemyCoord)
 {
+	PROFILING_FUNCTION();
 	//Get player position
 	COORD p0 = GetPosition();
 	//Sweep 9x9 grid around player O(n^2)
@@ -141,6 +146,7 @@ void Player::Fight(Enemy* Opponent)
 
 void Player::Die()
 {
+	PROFILING_FUNCTION();
 	//Call parent Die
 	Character::Die();
 	//If game is still active

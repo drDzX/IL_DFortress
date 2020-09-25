@@ -22,6 +22,7 @@ GamePlay::GamePlay(shared_ptr<DzX_Console> console)
 }
 void GamePlay::StartNewGame()
 {
+	PROFILING_FUNCTION();
 	//Clear the screen
 	system("cls");
 	//Read world layout from XML
@@ -52,6 +53,7 @@ void GamePlay::StartNewGame()
 }
 void GamePlay::BeginPlay()
 {
+	PROFILING_FUNCTION();
 	//Create HUD if there is none
 	if (!m_HUD)
 	{
@@ -67,6 +69,7 @@ void GamePlay::BeginPlay()
 
 void GamePlay::Play()
 {
+	PROFILING_FUNCTION();
 	//Clear console
 	system("cls");
 
@@ -75,9 +78,12 @@ void GamePlay::Play()
 	//Draw player HUD (side menu)
 	m_HUD->DrawHud();
 
+
+
 	//While playing loop
 	while (m_GameState != EGameState::GameStopped)
 	{
+		PROFILING_SCOPE("PlayWhileLoop");
 		//Catch input
 		if (_kbhit())
 		{
@@ -135,6 +141,7 @@ void GamePlay::Play()
 			}
 			if (ASCII_Key == 120 || ASCII_Key == 88 /*X*/)
 			{
+
 				//Stop the game
 				m_GameState = EGameState::GameStopped;
 				//Exit to main menu
@@ -163,13 +170,14 @@ void GamePlay::Play()
 			m_Console->SetColor(7);
 			//Check for overlaps around the player
 			m_Player->OverlappEvent();
-		}
+		}	
 	}
 }
 
 
 void GamePlay::GameOver()
 {
+	PROFILING_FUNCTION();
 	//Get graphic to draw on screen from XML
 	std::string top = ReadXML("Config/HUD.xml", "GameOver", "Topology");
 	vector<std::string> m_borkenStringUITop = ExplodeString(top, '\n');
@@ -198,6 +206,7 @@ void GamePlay::GameOver()
 
 void GamePlay::Victory()
 {
+	PROFILING_FUNCTION();
 	//Get graphic to draw on screen from XML
 	std::string top = ReadXML("Config/HUD.xml", "Victory", "Topology");
 	vector<std::string> m_borkenStringUITop = ExplodeString(top, '\n');
@@ -225,23 +234,27 @@ void GamePlay::Victory()
 
 void GamePlay::RemovePickup(class Pickup* PickupToRemove)
 {
+	PROFILING_FUNCTION();
 	//Remove from container by value
 	m_Pickups.erase(std::remove(m_Pickups.begin(), m_Pickups.end(), PickupToRemove), m_Pickups.end());
 }
 
 void GamePlay::RemoveEnemy(class Enemy* EnemyToRemove)
 {
+	PROFILING_FUNCTION();
 	//Remove from container by value
 	m_Enemies.erase(std::remove(m_Enemies.begin(), m_Enemies.end(), EnemyToRemove), m_Enemies.end());
 }
 
 void GamePlay::DrawWorld()
 {
+	PROFILING_FUNCTION();
 	std::cout << m_WorldLook;
 }
 
 void GamePlay::SaveGame()
 {
+	PROFILING_FUNCTION();
 	//Create XML doc
 	pugi::xml_document doc;
 

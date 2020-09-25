@@ -99,6 +99,7 @@ IF EXIST Config\ (xcopy /Q /E /Y /I Config $(SolutionDir)\bin\Release-windows-x8
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Profiling\Profiler.h" />
     <ClInclude Include="Source\Characters\Characters.h" />
     <ClInclude Include="Source\Characters\Enemy.h" />
     <ClInclude Include="Source\Characters\Player.h" />
@@ -110,6 +111,7 @@ IF EXIST Config\ (xcopy /Q /E /Y /I Config $(SolutionDir)\bin\Release-windows-x8
     <ClInclude Include="Source\Pickups\Pickup.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Profiling\Profiler.cpp" />
     <ClCompile Include="Source\Characters\Characters.cpp" />
     <ClCompile Include="Source\Characters\Enemy.cpp" />
     <ClCompile Include="Source\Characters\Player.cpp" />

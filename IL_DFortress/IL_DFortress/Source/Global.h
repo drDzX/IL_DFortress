@@ -23,8 +23,19 @@
 
 #include "ConsoleEngine/DzX_ConsoleEngine.h"
 
+#include "Profiling/Profiler.h"
+
 //To switch between starting game or main menu first
 #define PR_DEBUG 0
+
+#define PROFILING 0
+#if PROFILING
+#define PROFILING_SCOPE(name) Timer timer##__LINE__(name)
+#define PROFILING_FUNCTION() PROFILING_SCOPE(__FUNCTION__)
+#else
+#define PROFILING_SCOPE(name)
+#endif
+
 
 using json = nlohmann::json;
 

@@ -11,6 +11,7 @@ MainMenu::MainMenu()
 
 void MainMenu::NewGame(DzX_Console* Console)
 {
+	PROFILING_FUNCTION();
 	//Need to check for console because in debug we jump start new instance.
 	if (PR_DEBUG == 1)
 	{
@@ -35,6 +36,7 @@ void MainMenu::NewGame(DzX_Console* Console)
 
 void MainMenu::LoadGame()
 {
+	PROFILING_FUNCTION();
 	if (m_Console)
 	{
 		m_GameInstance = new GamePlay(m_Console);
@@ -48,6 +50,14 @@ void MainMenu::LoadGame()
 
 void MainMenu::LoadMenu(DzX_Console* Console)
 {
+
+	if (!Instrumentor::Get().IsSessionInProgress())
+	{	
+		//Begin profiling
+		Instrumentor::Get().BeginSession("Profile");
+	}
+
+	PROFILING_FUNCTION();
 	//Focus is in this menu
 	m_bIsInMenu = true;
 
@@ -67,7 +77,6 @@ void MainMenu::LoadMenu(DzX_Console* Console)
 	
 	//Draw menu look
 	DrawMenu();
-
 
 	//Loop while in this menu
 	while (m_bIsInMenu)
@@ -92,6 +101,9 @@ void MainMenu::LoadMenu(DzX_Console* Console)
 			}
 			if (ch == '0')
 			{
+
+				//Finish profiling
+				Instrumentor::Get().EndSession();
 				//Exit application
 				exit(0);
 			}
@@ -101,6 +113,7 @@ void MainMenu::LoadMenu(DzX_Console* Console)
 
 void MainMenu::DrawMenu()
 {
+	PROFILING_FUNCTION();
 	//Clear console
 	system("cls");
 

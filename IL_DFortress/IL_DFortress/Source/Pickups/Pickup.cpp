@@ -24,6 +24,7 @@ Pickup::Pickup(EObjectType PickupType, class GamePlay* Game)
 
 void Pickup::OnPickup(Player* NewOwner)
 {
+	PROFILING_FUNCTION();
 	//Switch by type, and add to Player inventory acordingly
 	switch (m_PickupType)
 	{
@@ -62,6 +63,7 @@ void Pickup::OnPickup(Player* NewOwner)
 
 void Pickup::Effect(Player* EffectOnPlayer)
 {
+	PROFILING_FUNCTION();
 	//Switch by type and execute effect to player acordingly
 	switch (m_PickupType)
 	{
@@ -79,6 +81,7 @@ void Pickup::Effect(Player* EffectOnPlayer)
 
 void Pickup::Spawn(COORD SpawnPos, shared_ptr<class DzX_Console> console)
 {
+	PROFILING_FUNCTION();
 	//Sets console pointer
 	m_ActiveConsole = console;
 	//Sets spawn location
@@ -87,6 +90,7 @@ void Pickup::Spawn(COORD SpawnPos, shared_ptr<class DzX_Console> console)
 
 void Pickup::Draw()
 {
+	PROFILING_FUNCTION();
 	if (m_ActiveConsole && !bIsPickedUp)
 	{
 		//Sets pickup color
@@ -108,6 +112,7 @@ void Pickup::Draw()
 
 void Pickup::SetEffect()
 {
+	PROFILING_FUNCTION();
 	//Switch by type and read stats from XML file acordingly
 	switch (m_PickupType)
 	{

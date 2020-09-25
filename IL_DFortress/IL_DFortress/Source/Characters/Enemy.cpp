@@ -27,6 +27,7 @@ Enemy::Enemy(EObjectType EnemyType)
 
 void Enemy::MoveRandom(int Seed)
 {
+	PROFILING_FUNCTION();
 	if (m_ActiveConsole)
 	{
 		//Reset random seed
@@ -83,6 +84,7 @@ void Enemy::MoveRandom(int Seed)
 
 void Enemy::DropItem()
 {
+	PROFILING_FUNCTION();
 	//Create random seed by current time
 	unsigned int RandSeed = (unsigned int)time(0);
 	srand(RandSeed);
@@ -103,6 +105,7 @@ void Enemy::DropItem()
 
 void Enemy::Die()
 {
+	PROFILING_FUNCTION();
 	//Call parent function
 	Character::Die();
 	if (m_ActiveGame)

@@ -13,6 +13,9 @@
     <Filter Include="Pickups">
       <UniqueIdentifier>{C46A1C0E-304A-9BA9-3962-2680A5C0010B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Profiling">
+      <UniqueIdentifier>{4f8d58c4-8844-4e6e-bc92-a72f5a694ada}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Characters\Characters.h">
@@ -37,6 +40,9 @@
     </ClInclude>
     <ClInclude Include="Source\Pickups\Pickup.h">
       <Filter>Pickups</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Profiling\Profiler.h">
+      <Filter>Profiling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,5 +70,8 @@
       <Filter>Pickups</Filter>
     </ClCompile>
     <ClCompile Include="Source\pugixml.cpp" />
+    <ClCompile Include="Source\Profiling\Profiler.cpp">
+      <Filter>Profiling</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,0 +1,2 @@
+Open in chrome
+chrome://tracing/

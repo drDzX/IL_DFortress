@@ -11,6 +11,7 @@ Character::Character()
 
 void Character::EraseCharacter()
 {
+	PROFILING_FUNCTION();
 	if (m_ActiveConsole)
 	{
 		//Move cursor to current location
@@ -22,6 +23,7 @@ void Character::EraseCharacter()
 
 bool Character::bCanMoveToNext(int X, int Y)
 {
+	PROFILING_FUNCTION();
 	if (m_ActiveConsole)
 	{
 		//Get field at next position
@@ -54,6 +56,7 @@ void Character::DrawCharacter()
 
 COORD Character::GetPosition()
 {
+	PROFILING_FUNCTION();
 	COORD _C;
 	_C.X = m_posX;
 	_C.Y = m_posY;
@@ -62,6 +65,7 @@ COORD Character::GetPosition()
 
 void Character::MoveTo(int addX, int addY)
 {
+	PROFILING_FUNCTION();
 	//Add to X and Y
 	int nextX = m_posX + addX;
 	int nextY = m_posY + addY;
@@ -117,6 +121,7 @@ void Character::UpdateDEF(int InChange)
 
 void Character::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>CurrentConsole, int spawnX, int spawnY)
 {
+	PROFILING_FUNCTION();
 	//Set spawn position
 	m_posX = spawnX;
 	m_posY = spawnY;
@@ -131,6 +136,7 @@ void Character::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>
 
 void Character::Attack(class Character* Enemy)
 {
+	PROFILING_FUNCTION();
 	//Calculate dmg acording to STR and Enemy DEF
 	int Damage = m_Stats.Strength - Enemy->m_Stats.Defence;
 	//Inflict damage to enemy
