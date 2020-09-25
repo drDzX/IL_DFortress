@@ -141,26 +141,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Characters.h" />
+    <ClInclude Include="Source\Characters\Characters.h" />
     <ClInclude Include="Source\ConsoleEngine\DzX_ConsoleEngine.h" />
-    <ClInclude Include="Source\Enemy.h" />
+    <ClInclude Include="Source\Characters\Enemy.h" />
     <ClInclude Include="Source\Game.h" />
     <ClInclude Include="Source\Global.h" />
-    <ClInclude Include="Source\MainMenu.h" />
-    <ClInclude Include="Source\Pickup.h" />
-    <ClInclude Include="Source\Player.h" />
-    <ClInclude Include="Source\PlayerMenu.h" />
+    <ClInclude Include="Source\Menu\MainMenu.h" />
+    <ClInclude Include="Source\Pickups\Pickup.h" />
+    <ClInclude Include="Source\Characters\Player.h" />
+    <ClInclude Include="Source\Menu\PlayerMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\ConsoleEngine\DzX_ConsoleEngine.cpp" />
-    <ClCompile Include="Source\Characters.cpp" />
-    <ClCompile Include="Source\Enemy.cpp" />
+    <ClCompile Include="Source\Characters\Characters.cpp" />
+    <ClCompile Include="Source\Characters\Enemy.cpp" />
     <ClCompile Include="Source\Game.cpp" />
     <ClCompile Include="Source\Global.cpp" />
-    <ClCompile Include="Source\MainMenu.cpp" />
-    <ClCompile Include="Source\Pickup.cpp" />
-    <ClCompile Include="Source\Player.cpp" />
-    <ClCompile Include="Source\PlayerMenu.cpp" />
+    <ClCompile Include="Source\Menu\MainMenu.cpp" />
+    <ClCompile Include="Source\Pickups\Pickup.cpp" />
+    <ClCompile Include="Source\Characters\Player.cpp" />
+    <ClCompile Include="Source\Menu\PlayerMenu.cpp" />
     <ClCompile Include="Source\pugixml.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

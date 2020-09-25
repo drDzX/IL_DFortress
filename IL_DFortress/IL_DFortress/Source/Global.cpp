@@ -3,7 +3,6 @@
 
 std::string ReadJson(const char InPath[], const char elemKey[])
 {
-
 	std::ifstream file(InPath);
 	json J;
 	file >> J;
@@ -14,15 +13,12 @@ std::string ReadJson(const char InPath[], const char elemKey[])
 
 std::string ReadXML(const char InPath[], const char NodeName[], const char Attribute[])
 {
-	//Debuging segment
-	//std::ifstream t("E:\\Dezex\\Projects\\IL_DFortress\\IL_DFortress\\IL_DFortress\\Config\\world.xml");
-	//std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-	//std::cout << str;
+	//Make xml file
 	pugi::xml_document doc;
+	//Read XML file from path
 	pugi::xml_parse_result result = doc.load_file(InPath);
-	/*  if (!result)
-		  return "";*/
 
+	//Loop children and return attribute value for first node it finds
 	for (pugi::xml_node tool : doc.child("Main").child("Data").children(NodeName))
 	{
 		//Return first node attribute value
@@ -33,11 +29,12 @@ std::string ReadXML(const char InPath[], const char NodeName[], const char Attri
 
 std::string ReadXML(const char InPath[], const char NodeName[], const char NodeChildren[], const char Attribute[])
 {
+	//Make xml file
 	pugi::xml_document doc;
+	//Read XML file from path
 	pugi::xml_parse_result result = doc.load_file(InPath);
-	/*  if (!result)
-		  return "";*/
 
+	//Loop children and return attribute value for first node it finds
 	for (pugi::xml_node tool : doc.child("NodeName").children(NodeChildren))
 	{
 		//Return first node attribute value
@@ -48,9 +45,12 @@ std::string ReadXML(const char InPath[], const char NodeName[], const char NodeC
 
 const std::vector<std::string> ExplodeString(const std::string& s, const char& c)
 {
+	//String buffer
 	std::string buff{ "" };
+	//vector to collect strings in
 	vector<std::string> v;
 
+	//Loop string and add to vector
 	for (auto n : s)
 	{
 		if (n != c) buff += n; else

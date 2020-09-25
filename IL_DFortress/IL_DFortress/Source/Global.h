@@ -1,15 +1,26 @@
 #pragma once
-#include <iostream>
-#include <memory>
-#include <iterator>
-#include <algorithm>
-#include <fstream>
+
+#include <stdio.h>
+
+#include <windows.h>
+#include <conio.h>
+
 #include <thread>
 #include <future>
-#include <chrono>
+#include <memory>
+
+#include <iterator>
+#include <algorithm>
+
+#include <fstream>
+#include <iostream>
+
 #include <vector>
+#include <chrono>
+
 #include "json.hpp" //#PROBLEM - trouble with exceptions for ifstream, terminating program.
 #include "pugixml.hpp"
+
 #include "ConsoleEngine/DzX_ConsoleEngine.h"
 
 //To switch between starting game or main menu first
@@ -32,11 +43,15 @@ enum class EObjectType :char
 	HPPOTION = '8',
 };
 
-//#DEPR - not in use
+//#PROBLEM - not in use. Terminates console by calling NOEXCEPTION for ifstream.
 std::string ReadJson(const char InPath[], const  char elemKey[]);
 
+//Read XML file from default node list
 std::string ReadXML(const char InPath[], const  char NodeName[],const char Attribute[]);
-
+//Read XML file with exact node / child list
 std::string ReadXML(const char InPath[], const  char NodeName[], const  char NodeChildren[], const char Attribute[]);
-
+/*Explode string to rows
+* @s - string to parse.
+* @c - char to split string.
+* */
 const std::vector<std::string> ExplodeString(const std::string& s, const char& c);
