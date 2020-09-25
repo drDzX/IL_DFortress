@@ -14,34 +14,49 @@ std::string ReadJson(const char InPath[], const char elemKey[])
 
 std::string ReadXML(const char InPath[], const char NodeName[], const char Attribute[])
 {
-    //Debuging segment
-    //std::ifstream t("E:\\Dezex\\Projects\\IL_DFortress\\IL_DFortress\\IL_DFortress\\Config\\world.xml");
-    //std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
-    //std::cout << str;
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(InPath);
-  /*  if (!result)
-        return "";*/
+	//Debuging segment
+	//std::ifstream t("E:\\Dezex\\Projects\\IL_DFortress\\IL_DFortress\\IL_DFortress\\Config\\world.xml");
+	//std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+	//std::cout << str;
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(InPath);
+	/*  if (!result)
+		  return "";*/
 
-    for (pugi::xml_node tool : doc.child("Main").child("Data").children(NodeName))
-    {
-        //Return first node attribute value
-        return  tool.attribute(Attribute).value();
-    }
-    return "";
+	for (pugi::xml_node tool : doc.child("Main").child("Data").children(NodeName))
+	{
+		//Return first node attribute value
+		return  tool.attribute(Attribute).value();
+	}
+	return "";
 }
 
 std::string ReadXML(const char InPath[], const char NodeName[], const char NodeChildren[], const char Attribute[])
 {
-    pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(InPath);
-    /*  if (!result)
-          return "";*/
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file(InPath);
+	/*  if (!result)
+		  return "";*/
 
-    for (pugi::xml_node tool : doc.child("NodeName").children(NodeChildren))
-    {
-        //Return first node attribute value
-        return  tool.attribute(Attribute).value();
-    }
-    return "";
+	for (pugi::xml_node tool : doc.child("NodeName").children(NodeChildren))
+	{
+		//Return first node attribute value
+		return  tool.attribute(Attribute).value();
+	}
+	return "";
+}
+
+const std::vector<std::string> ExplodeString(const std::string& s, const char& c)
+{
+	std::string buff{ "" };
+	vector<std::string> v;
+
+	for (auto n : s)
+	{
+		if (n != c) buff += n; else
+			if (n == c && buff != "") { v.push_back(buff); buff = ""; }
+	}
+	if (buff != "") v.push_back(buff);
+
+	return v;
 }

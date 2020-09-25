@@ -29,14 +29,18 @@ void GamePlay::StartNewGame()
 
 	//Create player character
 	m_Player = make_shared<class Player>();
-	m_Player->Spawn(this, m_Console, 5, 5);
+	int SpawnX = stoi(ReadXML("Config/GamePlay_Settings.xml", "GameSettings", "StartSpawnX"));
+	int SpawnY = stoi(ReadXML("Config/GamePlay_Settings.xml", "GameSettings", "StartSpawnY"));
+	m_Player->Spawn(this, m_Console, SpawnX, SpawnX);
 	//Get  char from field where player will be spawned
-	char ch = m_Console->GetCharAtPosition(5, 5);
+	char ch = m_Console->GetCharAtPosition(SpawnX, SpawnY);
 	//Set field on top of which is player
 	m_Player->SetCurrentField(ch);
 	int NoOfEnemies = stoi(ReadXML("Config/GamePlay_Settings.xml", "GameSettings", "NoOfEnemies"));
 	SpawnEnemies(NoOfEnemies);
-	SpawnPickup(3);
+	m_Player->SetCurrentField(ch);
+	int NoOfPots = stoi(ReadXML("Config/GamePlay_Settings.xml", "GameSettings", "NoOfHPPots"));
+	SpawnHPPots(NoOfPots);
 
 	BeginPlay();
 }
@@ -44,7 +48,7 @@ void GamePlay::BeginPlay()
 {
 
 	//Set game to playing
-	m_GameState = EGameState::GamePlaying;	
+	m_GameState = EGameState::GamePlaying;
 
 
 	//Create HUD
@@ -54,7 +58,7 @@ void GamePlay::BeginPlay()
 	}
 
 	m_HUD->BeginPlay();
-	
+
 	Play();
 }
 
@@ -64,9 +68,9 @@ void GamePlay::Play()
 	DrawWorld();
 	m_HUD->DrawHud();
 
-	while (EGameState::GamePlaying)
+	while (m_GameState != EGameState::GameStopped)
 	{
-		m_HUD->UpdateHud();
+
 
 		//Catch input
 		if (_kbhit())
@@ -75,57 +79,66 @@ void GamePlay::Play()
 			//char ch = _getch();
 			int ASCII_Key = _getch();
 
-			if (ASCII_Key == 97 || ASCII_Key == 65)/*A*/
+			if (m_GameState == EGameState::GamePlaying)
 			{
-				m_Player->MoveTo(-1, 0);
-			}
-			if (ASCII_Key == 100 || ASCII_Key == 68)/*D*/
-			{
-				m_Player->MoveTo(1, 0);
-			}
-			if (ASCII_Key == 115 || ASCII_Key == 68)/*S*/
-			{
-				m_Player->MoveTo(0, 1);
-			}
-			if (ASCII_Key == 119 || ASCII_Key == 87)/*W*/
-			{
-				m_Player->MoveTo(0, -1);
-			}
-			if (ASCII_Key == 49)/*1*/
-			{
-				m_Player->UseInventorySlot(0);
-			}
-			if (ASCII_Key == 69 || ASCII_Key == 101) /*E*/
-			{
-				m_Player->PickupEvent();
-			}
-			if (ASCII_Key == 63/*F5*/)
-			{
-				SaveGame();
+
+				if (ASCII_Key == 97 || ASCII_Key == 65)/*A*/
+				{
+					m_Player->MoveTo(-1, 0);
+				}
+				if (ASCII_Key == 100 || ASCII_Key == 68)/*D*/
+				{
+					m_Player->MoveTo(1, 0);
+				}
+				if (ASCII_Key == 115 || ASCII_Key == 68)/*S*/
+				{
+					m_Player->MoveTo(0, 1);
+				}
+				if (ASCII_Key == 119 || ASCII_Key == 87)/*W*/
+				{
+					m_Player->MoveTo(0, -1);
+				}
+				if (ASCII_Key == 49)/*1*/
+				{
+					m_Player->UseInventorySlot(0);
+				}
+				if (ASCII_Key == 69 || ASCII_Key == 101) /*E*/
+				{
+					m_Player->PickupEvent();
+				}
+				if (ASCII_Key == 63/*F5*/)
+				{
+					SaveGame();
+				}
+				if (ASCII_Key != 63/*F5*/ && ASCII_Key != 0)
+				{
+					//Push draw enemies to another thread
+					std::thread t1(&GamePlay::MoveEnemies, this);
+					t1.join();
+				}
 			}
 			if (ASCII_Key == 120 || ASCII_Key == 88 /*X*/)
 			{
 				m_GameState = EGameState::GameStopped;
 				m_Console->m_Menu->LoadMenu();
 			}
-			if (ASCII_Key != 63/*F5*/ && ASCII_Key!=0)
-			{
-				//Push draw enemies to another thread
-				std::thread t1(&GamePlay::MoveEnemies, this);
-				t1.join();
-			}
-
 		}
-		//Push draw enemies to another thread
-		std::thread t2(&GamePlay::DrawEnemies, this);
-		t2.join();
 
-		DrawPickups();
-		//Draw Character
-		m_Console->SetColor(10);
-		m_Player->DrawCharacter();
-		m_Console->SetColor(7);
-		m_Player->OverlappEvent();
+		if (m_GameState == EGameState::GamePlaying)
+		{
+			m_HUD->UpdateHud();
+
+			//Push draw enemies to another thread
+			std::thread t2(&GamePlay::DrawEnemies, this);
+			t2.join();
+
+			DrawPickups();
+			//Draw Character
+			m_Console->SetColor(10);
+			m_Player->DrawCharacter();
+			m_Console->SetColor(7);
+			m_Player->OverlappEvent();
+		}
 
 	}
 
@@ -134,9 +147,52 @@ void GamePlay::Play()
 
 void GamePlay::GameOver()
 {
+	std::string top = ReadXML("Config/HUD.xml", "GameOver", "Topology");
+	vector<std::string> m_borkenStringUITop = ExplodeString(top, '\n');
+
+	m_Console->Draw(2, 7, 8, 100, 15, 1, 1);
+
+	//Add row for each NewLine
+	int RowAdd = 0;
+	//Loop each line
+	for (auto s : m_borkenStringUITop)
+	{
+		//Offset it to match UI position
+		m_Console->GoToXY(10, 10 + RowAdd);
+		//Print
+		std::cout << s;
+		//Add for next row
+		RowAdd++;
+	}
+	m_Console->GoToXY(49, 20);
+	cout << "Press X to Exit.";
 
 }
 
+
+void GamePlay::Victory()
+{
+	std::string top = ReadXML("Config/HUD.xml", "Victory", "Topology");
+	vector<std::string> m_borkenStringUITop = ExplodeString(top, '\n');
+
+	m_Console->Draw(2, 7, 8, 100, 15, 1, 1);
+
+	//Add row for each NewLine
+	int RowAdd = 0;
+	//Loop each line
+	for (auto s : m_borkenStringUITop)
+	{
+		//Offset it to match UI position
+		m_Console->GoToXY(10, 10 + RowAdd);
+		//Print
+		std::cout << s;
+		//Add for next row
+		RowAdd++;
+	}
+	m_Console->GoToXY(49, 20);
+	cout << "Press X to Exit.";
+
+}
 
 void GamePlay::RemovePickup(class Pickup* PickupToRemove)
 {
@@ -210,11 +266,11 @@ void GamePlay::StartLoadGame()
 	pugi::xml_node PlayerNode = doc.child("Player");
 
 
-	int PosX =stoi( PlayerNode.attribute("PosX").value() );
+	int PosX = stoi(PlayerNode.attribute("PosX").value());
 	int PosY = stoi(PlayerNode.attribute("PosY").value());
 	m_Player = make_shared<class Player>();
 	m_Player->Spawn(this, m_Console, PosX, PosY);
-	m_Player->m_Stats.CurrentHealth= stoi(PlayerNode.attribute("HP").value());
+	m_Player->m_Stats.CurrentHealth = stoi(PlayerNode.attribute("HP").value());
 	m_Player->m_Stats.Strength = stoi(PlayerNode.attribute("STR").value());
 	m_Player->m_Stats.Defence = stoi(PlayerNode.attribute("DEF").value());
 	m_Player->Slot1.Amount = stoi(PlayerNode.attribute("INV1").value());
@@ -249,7 +305,7 @@ void GamePlay::StartLoadGame()
 		TempNME->Spawn(this, m_Console, PosX, PosY);
 		//Get  char from field where player will be spawned
 		char ch = m_Console->GetCharAtPosition(PosX, PosY);
-		
+
 		//Set field on top of which is player
 		TempNME->SetCurrentField(ch);
 
@@ -301,7 +357,7 @@ void GamePlay::DrawPickups()
 	}
 }
 
-void GamePlay::SpawnPickup(int NoOfPickups)
+void GamePlay::SpawnHPPots(int NoOfPickups)
 {
 
 	for (int i = 0; i < NoOfPickups; i++)
@@ -342,8 +398,8 @@ COORD GamePlay::GetRandomPoint(int Seed)
 	srand((unsigned int)time(0) + (Seed * rand()));
 	if (m_Console)
 	{
-		int X = m_GamePlayArea.Left + (std::rand() % (m_GamePlayArea.Right - m_GamePlayArea.Left ));
-		int Y = m_GamePlayArea.Top + (std::rand() % (m_GamePlayArea.Bottom - m_GamePlayArea.Top ));
+		int X = m_GamePlayArea.Left + (std::rand() % (m_GamePlayArea.Right - m_GamePlayArea.Left));
+		int Y = m_GamePlayArea.Top + (std::rand() % (m_GamePlayArea.Bottom - m_GamePlayArea.Top));
 		char c = m_Console->GetCharAtPosition(X, Y);
 		bool bInRange = X < m_GamePlayArea.Right&& Y < m_GamePlayArea.Bottom;
 		char field = static_cast<char>(EObjectType::SPAWNABLE);

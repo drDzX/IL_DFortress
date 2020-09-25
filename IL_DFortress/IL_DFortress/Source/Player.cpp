@@ -15,7 +15,7 @@ void Player::Spawn(class GamePlay* CurrentGame, shared_ptr<class DzX_Console>Cur
 {
 	Character::Spawn(CurrentGame, CurrentConsole, spawnX, spawnY);
 
-	m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Player","STR"));
+	m_Stats.Strength = stoi(ReadXML("Config/GamePlay_Settings.xml", "Player", "STR"));
 	m_Stats.Defence = stoi(ReadXML("Config/GamePlay_Settings.xml", "Player", "DEF"));
 	m_Stats.MaxHealth = stoi(ReadXML("Config/GamePlay_Settings.xml", "Player", "HP"));
 	m_Stats.CurrentHealth = m_Stats.MaxHealth;
@@ -49,7 +49,7 @@ void Player::OverlappEvent()
 	{
 		for (Enemy* NME : m_ActiveGame->m_Enemies)
 		{
-			if (NME) 
+			if (NME)
 			{
 				COORD p1 = NME->GetPosition();
 				COORD p0 = EnemyPos;
@@ -59,10 +59,10 @@ void Player::OverlappEvent()
 					Fight(NME);
 					if (NME->m_PlayerState == EPlayerState::DEAD)
 					{
-					//	delete NME;
+						//	delete NME;
 					}
 				}
-			}		
+			}
 
 		}
 	}
@@ -98,8 +98,8 @@ bool Player::CheckForEnemiesAround(COORD& EnemyCoord)
 		{
 			if (!(x == 0 && y == 0))
 			{
-				char _c=m_ActiveConsole->GetCharAtPosition(p0.X+x, p0.Y+y);
-				if (_c == static_cast<char>(EObjectType::ENEMY_1)|| _c == static_cast<char>(EObjectType::ENEMY_2))
+				char _c = m_ActiveConsole->GetCharAtPosition(p0.X + x, p0.Y + y);
+				if (_c == static_cast<char>(EObjectType::ENEMY_1) || _c == static_cast<char>(EObjectType::ENEMY_2))
 				{
 					COORD NmeCoord;
 					NmeCoord.X = p0.X + x;
@@ -120,5 +120,15 @@ void Player::Fight(Enemy* Opponent)
 	if (Opponent->m_PlayerState == EPlayerState::ALIVE)
 	{
 		Fight(Opponent);
+	}
+}
+
+void Player::Die()
+{
+	Character::Die();
+	if (m_ActiveGame->m_GameState == GamePlaying)
+	{
+		m_ActiveGame->m_GameState = EGameState::GamePaused;
+		m_ActiveGame->GameOver();
 	}
 }

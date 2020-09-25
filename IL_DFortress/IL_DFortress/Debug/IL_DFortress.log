@@ -1,3 +1,3 @@
 ﻿  Game.cpp
-E:\Dezex\Projects\IL_DFortress\IL_DFortress\IL_DFortress\Source\Game.cpp(363): warning C4715: 'GamePlay::GetRandomPoint': not all control paths return a value
+E:\Dezex\Projects\IL_DFortress\IL_DFortress\IL_DFortress\Source\Game.cpp(395): warning C4715: 'GamePlay::GetRandomPoint': not all control paths return a value
   IL_DFortress.vcxproj -> E:\Dezex\Projects\IL_DFortress\IL_DFortress\Debug\IL_DFortress.exe

@@ -51,7 +51,6 @@ void MainMenu::LoadGame()
 
 void MainMenu::LoadMenu(DzX_Console* Console)
 {
-	system("cls");
 	m_bIsInMenu = true;
 	if (m_GameInstance)
 	{
@@ -62,15 +61,8 @@ void MainMenu::LoadMenu(DzX_Console* Console)
 		shared_ptr<class DzX_Console> _cons(Console);
 		m_Console = _cons;
 	}
-	m_Console->Draw(2, 0, 0, 31, 8, 0, 1);
-	m_Console->GoToXY(1, 1);
-	cout << "--------- Main Menu ---------" << endl;
-	m_Console->GoToXY(1, 3);
-	cout << "	1.New Game" << endl;
-	m_Console->GoToXY(1, 4);
-	cout << "	2.Load Game" << endl;
-	m_Console->GoToXY(1, 5);
-	cout << "	0.Exit" << endl;
+
+	DrawMenu();
 
 	m_Console->UpdateConsoleSize();
 	while (m_bIsInMenu)
@@ -99,4 +91,35 @@ void MainMenu::LoadMenu(DzX_Console* Console)
 		}
 	}
 
+}
+
+void MainMenu::DrawMenu()
+{
+	system("cls");
+
+	m_Console->Draw(2, 0, 4, 50, 8, 0, 1);
+	m_Console->GoToXY(11, 5);
+	cout << "--------- Main Menu ---------" << endl;
+	m_Console->GoToXY(11, 7);
+	cout << "	1.New Game" << endl;
+	m_Console->GoToXY(11, 8);
+	cout << "	2.Load Game" << endl;
+	m_Console->GoToXY(11, 9);
+	cout << "	0.Exit" << endl;
+
+	std::string top = ReadXML("Config/HUD.xml", "Top", "Topology");
+	vector<std::string> m_borkenStringUITop = ExplodeString(top, '\n');
+	
+	//Add row for each NewLine
+	int RowAdd = 0;
+	//Loop each line
+	for (auto s : m_borkenStringUITop)
+	{
+		//Offset it to match UI position
+		m_Console->GoToXY(0, 0 + RowAdd);
+		//Print
+		std::cout << s;
+		//Add for next row
+		RowAdd++;
+	}
 }

@@ -40,7 +40,7 @@ void Pickup::OnPickup(Player* NewOwner)
 	m_ActiveConsole->GoToXY(m_SpawnCoord.X, m_SpawnCoord.Y);
 	cout << static_cast<char>(EObjectType::SPAWNABLE);
 	if (m_PickupType == EObjectType::ARMOR || m_PickupType == EObjectType::WEAPON)
-	{	
+	{
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
 		cout << static_cast<char>(EObjectType::SPAWNABLE);
@@ -85,7 +85,7 @@ void Pickup::Draw()
 		std::wcout << m_look;
 		if (m_PickupType == EObjectType::ARMOR || m_PickupType == EObjectType::WEAPON)
 		{
-			std::wcout << "+"<<m_EffectIntensity;
+			std::wcout << "+" << m_EffectIntensity;
 		}
 		m_ActiveConsole->SetColor(7);
 	}
@@ -97,14 +97,22 @@ void Pickup::SetEffect()
 	switch (m_PickupType)
 	{
 	case EObjectType::HPPOTION:
-		m_EffectIntensity = 5;
-		break;
+	{
+		int Value = stoi(ReadXML("Config/GamePlay_Settings.xml", "Pickup", "HPPot"));
+		m_EffectIntensity = Value;
+	}
+	break;
 	case EObjectType::ARMOR:
-		m_EffectIntensity = 1;
-		break;
+	{
+		int Value = stoi(ReadXML("Config/GamePlay_Settings.xml", "Pickup", "Armor"));
+		m_EffectIntensity = Value;
+	}
+	break;
 	case EObjectType::WEAPON:
-		m_EffectIntensity = 2;
-		break;
-
+	{
+		int Value = stoi(ReadXML("Config/GamePlay_Settings.xml", "Pickup", "Weapon"));
+		m_EffectIntensity = Value;
+	}
+	break;
 	}
 }

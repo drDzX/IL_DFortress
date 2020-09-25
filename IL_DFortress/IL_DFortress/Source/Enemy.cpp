@@ -102,8 +102,16 @@ void Enemy::Die()
 	if (m_ActiveGame)
 	{
 		m_ActiveGame->RemoveEnemy(this);
-	}	
-	DropItem();
-	//Destroy
+		if (m_ActiveGame->m_Enemies.size() == 0)
+		{
+			m_ActiveGame->m_GameState = EGameState::GamePaused;
+			m_ActiveGame->Victory();
+		}
+	}
+	if (m_ActiveGame->m_GameState == EGameState::GamePlaying)
+	{
+	
+		DropItem();
+	}
 }
 

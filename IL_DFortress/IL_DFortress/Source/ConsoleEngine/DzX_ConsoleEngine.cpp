@@ -10,7 +10,7 @@ DzX_Console::DzX_Console()
 	m_handleConsoleOut=GetStdHandle(STD_OUTPUT_HANDLE);
 
 	//m_handleConsoleIn = GetStdHandle(STD_INPUT_HANDLE);
-	m_ScreenSize.X = 110;
+	m_ScreenSize.X = 112;
 	m_ScreenSize.Y = 30;
 	m_ScreenRect.Top = 0;
 	m_ScreenRect.Left = 0;

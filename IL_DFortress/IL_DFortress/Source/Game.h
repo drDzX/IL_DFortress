@@ -35,6 +35,7 @@ public:
 	shared_ptr<class HUD> m_HUD;
 
 	void GameOver();
+	void Victory();
 	void RemovePickup(class Pickup* PickupToRemove);
 	void RemoveEnemy(class Enemy* EnemyToRemove);
 
@@ -51,7 +52,7 @@ private:
 	void MoveEnemies();
 
 	void DrawPickups();
-	void SpawnPickup(int NoOfPickups);
+	void SpawnHPPots(int NoOfPickups);
 
 	void SpawnEnemies(int NoOfEnemies);
 

@@ -50,4 +50,5 @@ public:
 
 	void Fight(class Enemy * Opponent);
 
+	virtual void Die()override;
 };

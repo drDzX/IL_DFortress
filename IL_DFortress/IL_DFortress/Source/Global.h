@@ -38,3 +38,5 @@ std::string ReadJson(const char InPath[], const  char elemKey[]);
 std::string ReadXML(const char InPath[], const  char NodeName[],const char Attribute[]);
 
 std::string ReadXML(const char InPath[], const  char NodeName[], const  char NodeChildren[], const char Attribute[]);
+
+const std::vector<std::string> ExplodeString(const std::string& s, const char& c);

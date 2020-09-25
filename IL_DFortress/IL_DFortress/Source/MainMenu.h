@@ -17,7 +17,7 @@ public:
 	void LoadGame();
 
 	void LoadMenu(DzX_Console* Console = nullptr);
-
+	void DrawMenu();
 	bool m_bIsInMenu;
 
 	class GamePlay* m_GameInstance;

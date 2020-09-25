@@ -129,10 +129,7 @@ void Character::Attack(class Character* Enemy)
 void Character::Die()
 {
 	m_PlayerState = EPlayerState::DEAD;
-	//if (m_ActiveGame)
-	//{
-	//	m_ActiveGame->GameOver();
-	//}
+
 }
 
 //std::vector<int, int> Character::GetPosition()
