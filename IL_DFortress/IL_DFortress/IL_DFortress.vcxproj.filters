@@ -1,78 +1,68 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="Characters">
+      <UniqueIdentifier>{25B2E54C-116A-279A-7A71-00F66648C28A}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="ConsoleEngine">
+      <UniqueIdentifier>{4EEC5EC0-BAAC-DAF6-83E7-2374EF661FD3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Menu">
+      <UniqueIdentifier>{FA04897C-E63B-8A0D-8F28-70107B3E060F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pickups">
+      <UniqueIdentifier>{C46A1C0E-304A-9BA9-3962-2680A5C0010B}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\ConsoleEngine\DzX_ConsoleEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Global.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Source\Characters\Characters.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\Characters\Enemy.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters</Filter>
     </ClInclude>
     <ClInclude Include="Source\Characters\Player.h">
-      <Filter>Header Files</Filter>
+      <Filter>Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ConsoleEngine\DzX_ConsoleEngine.h">
+      <Filter>ConsoleEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Game.h" />
+    <ClInclude Include="Source\Global.h" />
+    <ClInclude Include="Source\Menu\MainMenu.h">
+      <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="Source\Menu\PlayerMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Menu\MainMenu.h">
-      <Filter>Header Files</Filter>
+      <Filter>Menu</Filter>
     </ClInclude>
     <ClInclude Include="Source\Pickups\Pickup.h">
-      <Filter>Header Files</Filter>
+      <Filter>Pickups</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\ConsoleEngine\DzX_ConsoleEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Global.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\pugixml.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Characters\Characters.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\Characters\Enemy.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters</Filter>
     </ClCompile>
     <ClCompile Include="Source\Characters\Player.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ConsoleEngine\DzX_ConsoleEngine.cpp">
+      <Filter>ConsoleEngine</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Game.cpp" />
+    <ClCompile Include="Source\Global.cpp" />
+    <ClCompile Include="Source\Menu\MainMenu.cpp">
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="Source\Menu\PlayerMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\Menu\MainMenu.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Menu</Filter>
     </ClCompile>
     <ClCompile Include="Source\Pickups\Pickup.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Pickups</Filter>
     </ClCompile>
+    <ClCompile Include="Source\pugixml.cpp" />
   </ItemGroup>
 </Project>
