@@ -34,6 +34,7 @@
 #define PROFILING_FUNCTION() PROFILING_SCOPE(__FUNCTION__)
 #else
 #define PROFILING_SCOPE(name)
+#define PROFILING_FUNCTION()
 #endif
 
 
